@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindWell Resources</title>
+
+  <style>
+    :root {
+      --bg: #f2f6f9;
+      --surface: #ffffff;
+      --text: #1f2a37;
+      --muted: #5f6d78;
+      --accent: #3c9d7a;
+      --accent-soft: #d7f1e7;
+      --border: #dde4eb;
+      --shadow: 0 18px 40px rgba(17, 38, 63, 0.08);
+      --radius: 22px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #ffffff 0%, #f2f6f9 40%, #e6edf3 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(221, 228, 235, 0.9);
+      box-shadow: 0 16px 40px rgba(24, 44, 76, 0.06);
+    }
+
+    .topbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 18px 28px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    .logo span {
+      font-size: 1.6rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 10px 16px;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    nav a.active,
+    nav a:hover {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 12px 30px rgba(60, 157, 122, 0.18);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 30px auto 60px;
+      padding: 0 24px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #fdfdfd 0%, #eef8f3 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      display: grid;
+      grid-template-columns: 1fr max-content;
+      gap: 28px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2rem, 3vw, 3.4rem);
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-content p {
+      max-width: 680px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: grid;
+      gap: 16px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #d6dde6;
+      border-radius: 16px;
+      padding: 12px 16px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 0.99rem;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .search-box input::placeholder {
+      color: #9aa3b0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      border: 1px solid #d6dde6;
+      background: #fff;
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.93rem;
+      white-space: nowrap;
+    }
+
+    .pill.active {
+      background: var(--accent);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 14px 30px rgba(60, 157, 122, 0.16);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .small-card,
+    .large-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .small-card h3,
+    .large-card h3,
+    .resource-card h3 {
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 1.05rem;
+    }
+
+    .small-card p,
+    .large-card p,
+    .resource-card p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 0.98rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: var(--accent-soft);
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      color: var(--text);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .resource-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 16px;
+    }
+
+    .resource-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      color: #2f5a48;
+      background: #eaf6ee;
+      width: fit-content;
+    }
+
+    .resource-card h3 {
+      margin: 0;
+      font-size: 1.18rem;
+    }
+
+    .resource-card p {
+      margin: 0;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .resource-card .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .resource-card button,
+    .resource-card a {
+      border: none;
+      background: var(--accent);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .resource-card button:hover,
+    .resource-card a:hover {
+      transform: translateY(-1px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    #recommendationPanel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .recommendation-card {
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #f9fcf6;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .recommendation-card strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .recommendation-card span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .checklist label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #d8e2eb;
+      border-radius: 16px;
+      padding: 14px 18px;
+      background: white;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .checklist label:hover {
+      box-shadow: 0 12px 24px rgba(32, 57, 87, 0.06);
+    }
+
+    .checklist input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .help-card {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+
+    .help-card .stats {
+      display: grid;
+      gap: 12px;
+    }
+
+    .help-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .help-buttons button {
+      flex: 1;
+      min-width: 160px;
+      background: #e84a4a;
+      border: none;
+      color: white;
+      padding: 14px 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 12px 24px rgba(232, 74, 74, 0.18);
+    }
+
+    .help-buttons button.secondary {
+      background: #556f83;
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: rgba(28, 45, 60, 0.95);
+      color: white;
+      padding: 16px 22px;
+      border-radius: 18px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(18px);
+      transition: all 0.25s ease;
+      box-shadow: 0 28px 60px rgba(30, 53, 86, 0.2);
+      max-width: 320px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 0 10px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-grid,
+      .help-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar,
+      .page {
+        padding: 0 18px;
+      }
+
+      .pill {
+        padding: 10px 14px;
+      }
+
+      .resource-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="topbar">
+      <a class="logo" href="dashboard.html"><span>🌿</span> MindWell</a>
+      <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="journal.html">Journal</a>
+        <a href="resources.html" class="active">Resources</a>
+        <a href="therapist.html">Find Therapist</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <p style="font-weight:700;color:#3c9d7a;letter-spacing:0.1em;text-transform:uppercase;font-size:0.85rem;">Wellness Center</p>
+        <h1>Professional Mental Health Resources for your daily routine</h1>
+        <p>Find curated support tools, calming exercises, and wellness guidance in one place. Search by mood, category, or goal to get the right resource instantly.</p>
+      </div>
+
+      <div class="hero-actions">
+        <div class="search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 20C15.4183 20 19 16.4183 19 12C19 7.58172 15.4183 4 11 4C6.58172 4 3 7.58172 3 12C3 16.4183 6.58172 20 11 20Z" stroke="#8EA5B9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21L16.65 16.65" stroke="#8EA5B9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="searchInput" type="search" placeholder="Search resources, tips, articles..." oninput="filterResources()">
+        </div>
+
+        <div class="pill-row">
+          <button class="pill active" data-category="all" onclick="selectCategory(this)">All</button>
+          <button class="pill" data-category="meditation" onclick="selectCategory(this)">Meditation</button>
+          <button class="pill" data-category="music" onclick="selectCategory(this)">Music</button>
+          <button class="pill" data-category="articles" onclick="selectCategory(this)">Articles</button>
+          <button class="pill" data-category="self-care" onclick="selectCategory(this)">Self-care</button>
+          <button class="pill" data-category="support" onclick="selectCategory(this)">Support</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="small-card">
+        <h3>Fresh guidance every day</h3>
+        <p>Use the search tools and curated collections below to build a stable self-care routine and track the resources that help you most.</p>
+        <div class="stat-row">
+          <div class="stat"><strong>24</strong><span>Wellness tools</span></div>
+          <div class="stat"><strong>5</strong><span>Categories</span></div>
+        </div>
+      </article>
+
+      <article class="large-card">
+        <h3>Mood-Based Support</h3>
+        <p>Choose how you feel and receive immediate recommendations for soothing music, reflection prompts, and short breathing routines.</p>
+        <select id="moodSelect" onchange="showRecommendations()" style="width:100%;padding:14px 16px;border-radius:18px;border:1px solid #d6dde6;font-size:1rem;color:#2b3a4a;appearance:none;outline:none;background:#fff;">
+          <option value="">Pick your mood</option>
+          <option value="anxiety">Anxious / Overthinking</option>
+          <option value="sad">Sad / Emotional</option>
+          <option value="sleep">Need rest</option>
+          <option value="motivation">Need motivation</option>
+          <option value="happy">Feeling good</option>
+          <option value="calm">Want calm</option>
+        </select>
+        <div id="recommendationPanel">
+          <div class="recommendation-card"><strong>Choose a mood to see support suggestions.</strong><span>We will update this section automatically.</span></div>
+        </div>
+      </article>
+
+      <article class="small-card">
+        <h3>Daily Self-Care Checklist</h3>
+        <p>Keep track of small wins and restore balance with habits you can complete anytime.</p>
+        <ul class="checklist" id="selfCareChecklist"></ul>
+      </article>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <div>
+          <h2>Resource Library</h2>
+          <p id="resourceSummary">Showing all resources.</p>
+        </div>
+      </div>
+
+      <div class="resource-grid" id="resourceGrid">
+        <article class="resource-card" data-category="meditation" data-keywords="meditation breathing guided video">
+          <div class="tag">Meditation</div>
+          <h3>Guided Breathing Session</h3>
+          <p>A short guided meditation designed to reduce stress with simple breathwork.</p>
+          <div class="actions">
+            <a href="https://www.youtube.com/watch?v=inpok4MKVLM" target="_blank">View</a>
+            <span>Video</span>
+          </div>
+        </article>
+
+        <article class="resource-card" data-category="music" data-keywords="music relaxation sleep playlist">
+          <div class="tag">Music</div>
+          <h3>Relaxing Music Playlist</h3>
+          <p>Calming tracks selected to support focus, rest, and gentle energy recovery.</p>
+          <div class="actions">
+            <button onclick="openLink('https://www.youtube.com/watch?v=6zWdPlgwB8Y')">Open</button>
+            <span>Audio</span>
+          </div>
+        </article>
+
+        <article class="resource-card" data-category="articles" data-keywords="article anxiety stress sleep guide">
+          <div class="tag">Articles</div>
+          <h3>How to Manage Stress</h3>
+          <p>Practical guidance on building habits that help you feel grounded and resilient each day.</p>
+          <div class="actions">
+            <button onclick="openLink('https://www.healthline.com/health/stress/how-to-relieve-stress')">Read</button>
+            <span>Article</span>
+          </div>
+        </article>
+
+        <article class="resource-card" data-category="self-care" data-keywords="self-care routine wellbeing habits checklist">
+          <div class="tag">Self-care</div>
+          <h3>Self-Care Planner</h3>
+          <p>Build a daily routine with small, meaningful actions for better emotional balance.</p>
+          <div class="actions">
+            <button onclick="openLink('https://www.psychologytoday.com/us/blog/the-friendship-doctor/201610/10-ways-practice-self-care-daily')">Explore</button>
+            <span>Guide</span>
+          </div>
+        </article>
+
+        <article class="resource-card" data-category="support" data-keywords="support helpline crisis therapist emergency">
+          <div class="tag">Support</div>
+          <h3>Emergency Support</h3>
+          <p>Access urgent help and immediate support resources when you need it most.</p>
+          <div class="actions">
+            <button onclick="callHelp()">Call Helpline</button>
+            <button class="secondary" onclick="copyHelpline()">Copy Number</button>
+          </div>
+        </article>
+
+        <article class="resource-card" data-category="music" data-keywords="music focus study calm">
+          <div class="tag">Music</div>
+          <h3>Focus & Calm Soundscape</h3>
+          <p>Ambient sounds and gentle melodies to support concentration and inner peace.</p>
+          <div class="actions">
+            <button onclick="openLink('https://www.youtube.com/watch?v=DWcJFNfaw9c')">Listen</button>
+            <span>Audio</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="help-card">
+      <div>
+        <h3>Need quick support?</h3>
+        <p>If you're feeling overwhelmed, immediately use the helpline or planner below to ground yourself.</p>
+        <div class="help-buttons">
+          <button onclick="callHelp()">Call 1800-599-0019</button>
+          <button class="secondary" onclick="copyHelpline()">Copy Helpline</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>Emergency</strong><span>Always available</span></div>
+        <div class="stat"><strong>Reliable</strong><span>Trusted guidance</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    Designed to help you build confidence, calm, and consistency in your wellbeing journey.
+  </footer>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.resource-card'));
+    const summaryText = document.getElementById('resourceSummary');
+    const searchInput = document.getElementById('searchInput');
+    let activeCategory = 'all';
+
+    function updateResourceSummary(count) {
+      const label = activeCategory === 'all' ? 'Showing' : `Showing ${activeCategory} resources`;
+      summaryText.textContent = `${label}: ${count} item${count === 1 ? '' : 's'}`;
+    }
+
+    function filterResources() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        const keywords = card.dataset.keywords.toLowerCase();
+        const matchesSearch = query === '' || title.includes(query) || description.includes(query) || keywords.includes(query);
+        const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
+        const visible = matchesSearch && matchesCategory;
+
+        card.style.display = visible ? 'grid' : 'none';
+        if (visible) visibleCount += 1;
+      });
+
+      updateResourceSummary(visibleCount);
+    }
+
+    function selectCategory(button) {
+      activeCategory = button.dataset.category;
+      document.querySelectorAll('.pill').forEach(pill => pill.classList.toggle('active', pill === button));
+      filterResources();
+    }
+
+    function showRecommendations() {
+      const mood = document.getElementById('moodSelect').value;
+      const panel = document.getElementById('recommendationPanel');
+      const recommendations = {
+        anxiety: [
+          { title: 'Calming Breath Cycle', detail: '3-minute guided breathing exercise.' },
+          { title: 'Soothing Focus Music', detail: 'Ambient track to ease racing thoughts.' }
+        ],
+        sad: [
+          { title: 'Gentle Reflection Prompt', detail: 'A supportive writing prompt for emotional clarity.' },
+          { title: 'Warm Comfort Playlist', detail: 'Songs chosen to lift your mood gently.' }
+        ],
+        sleep: [
+          { title: 'Evening Wind-Down', detail: 'A short guided meditation for restful sleep.' },
+          { title: 'Soft Sleep Sounds', detail: 'Subtle ambient music to relax your mind.' }
+        ],
+        motivation: [
+          { title: 'Move Forward Routine', detail: 'A quick mindset reset for productive focus.' },
+          { title: 'Uplifting Energy Playlist', detail: 'Songs to help you feel energized.' }
+        ],
+        happy: [
+          { title: 'Gratitude Reflection', detail: 'Capture what went well today.' },
+          { title: 'Confidence Boost', detail: 'Celebrate small wins and stay positive.' }
+        ],
+        calm: [
+          { title: 'Centering Silence', detail: 'A breathing exercise for inner stillness.' },
+          { title: 'Peaceful Music Guide', detail: 'Soft melodies for a calm mind.' }
+        ]
+      };
+
+      panel.innerHTML = '';
+      if (!mood || !recommendations[mood]) {
+        panel.innerHTML = `<div class="recommendation-card"><strong>Select a mood above to get tailored support.</strong><span>We will suggest tools based on how you feel.</span></div>`;
+        return;
+      }
+
+      recommendations[mood].forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'recommendation-card';
+        card.innerHTML = `<strong>${item.title}</strong><span>${item.detail}</span>`;
+        panel.appendChild(card);
+      });
+    }
+
+    const checklistItems = [
+      'Drink at least 8 glasses of water',
+      'Take a 10-minute walk outside',
+      'Pause for a breathing break',
+      'Write one positive thought',
+      'Reach out to a friend or family member'
+    ];
+
+    function buildChecklist() {
+      const list = document.getElementById('selfCareChecklist');
+      list.innerHTML = '';
+      const saved = JSON.parse(localStorage.getItem('mindwell-checklist') || '{}');
+
+      checklistItems.forEach((item, index) => {
+        const id = `check-${index}`;
+        const checked = saved[id] === true;
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" id="${id}" ${checked ? 'checked' : ''}> <span>${item}</span>`;
+        list.appendChild(label);
+        label.querySelector('input').addEventListener('change', () => toggleChecklist(id));
+      });
+    }
+
+    function toggleChecklist(id) {
+      const saved = JSON.parse(localStorage.getItem('mindwell-checklist') || '{}');
+      saved[id] = document.getElementById(id).checked;
+      localStorage.setItem('mindwell-checklist', JSON.stringify(saved));
+    }
+
+    function callHelp() {
+      showToast('Mental Health Helpline: 1800-599-0019');
+    }
+
+    function copyHelpline() {
+      navigator.clipboard.writeText('1800-599-0019').then(() => {
+        showToast('Helpline number copied to clipboard');
+      }).catch(() => {
+        showToast('Unable to copy automatically. Please copy manually.');
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(window.toastTimeout);
+      window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    function openLink(url) {
+      window.open(url, '_blank');
+    }
+
+    buildChecklist();
+    filterResources();
+  </script>
+</body>
+</html>
